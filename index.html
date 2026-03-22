@@ -1330,7 +1330,7 @@ body.loaded .hero-actions {
   margin-bottom: 24px;
 }
 
-.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: end; }
 .f-group {
   display: flex; flex-direction: column; gap: 8px;
   margin-bottom: 12px;
@@ -2895,12 +2895,17 @@ body.lang-en .countries::before { content: 'SEA'; }
         </select>
       </div>
       <div class="f-group">
+        <label class="f-label">Способ связи</label>
+        <select class="f-select" id="formContact">
+          <option value="" disabled selected>Как с вами связаться?</option>
+          <option>WhatsApp</option>
+          <option>Telegram</option>
+          <option>Не важно</option>
+        </select>
+      </div>
+      <div class="f-group">
         <label class="f-label" data-i18n="form_label_comment">Комментарий</label>
         <textarea class="f-textarea" id="formComment" data-i18n-placeholder="form_ph_comment" placeholder="Расскажите подробнее о вашем запросе..."></textarea>
-      </div>
-      <div class="f-check">
-        <input class="f-check-box" type="checkbox" id="pp" checked>
-        <label class="f-check-label" for="pp" data-i18n-html="form_privacy">Согласен с <a href="#">политикой конфиденциальности</a> и обработкой персональных данных</label>
       </div>
       <button class="btn-gold" style="width:100%;justify-content:center;" id="submitBtn" onclick="handleSubmit(event)">
         <span class="btn-gold-inner" style="justify-content:center;">
@@ -2911,6 +2916,20 @@ body.lang-en .countries::before { content: 'SEA'; }
     </div>
   </div>
 </section>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal" style="display:none;">
+  <div class="modal-content" style="text-align:center; padding: 48px 40px;">
+    <div style="font-size:40px; margin-bottom:16px;">✓</div>
+    <div class="modal-title" style="margin-bottom:12px;">Заявка отправлена!</div>
+    <div style="color:var(--ash); font-size:15px; font-weight:300; line-height:1.7;">
+      Мы свяжемся с вами по<br>
+      <strong id="successContact" style="color:var(--gold-pale);"></strong><br>
+      в ближайшее время
+    </div>
+    <button class="btn-ghost" style="margin-top:32px; padding: 12px 32px;" onclick="document.getElementById('successModal').style.display='none'">Закрыть</button>
+  </div>
+</div>
 
 <!-- COUNTRY MODAL -->
 <div class="modal-overlay" id="countryModal">
@@ -3245,12 +3264,13 @@ function handleSubmit(e) {
   const submitSpan = inner.querySelector('[data-i18n="form_submit"]');
 
   const data = {
-    name:    (document.getElementById('formName')    || {}).value || '',
-    phone:   (document.getElementById('formPhone')   || {}).value || '',
+    name:    (document.getElementById('formName')          || {}).value || '',
+    phone:   (document.getElementById('formPhone')         || {}).value || '',
     country: (document.getElementById('formSelectCountry') || {}).value || '',
     budget:  (document.getElementById('formSelectBudget')  || {}).value || '',
     goal:    (document.getElementById('formSelectGoal')    || {}).value || '',
-    comment: (document.getElementById('formComment') || {}).value || ''
+    contact: (document.getElementById('formContact')       || {}).value || '',
+    comment: (document.getElementById('formComment')       || {}).value || ''
   };
 
   fetch(APPS_SCRIPT_URL, {
@@ -3258,17 +3278,17 @@ function handleSubmit(e) {
     body: JSON.stringify(data)
   }).catch(() => {});
 
-  if (submitSpan) {
-    submitSpan.textContent = i18n[lang].formSuccess;
-  } else {
-    inner.textContent = i18n[lang].formSuccess;
-  }
+  // Показываем попап
+  const successModal = document.getElementById('successModal');
+  const successContact = document.getElementById('successContact');
+  if (successContact) successContact.textContent = data.phone || '';
+  if (successModal) successModal.style.display = 'flex';
+
+  // Сбрасываем кнопку (без дублирования стрелки)
+  if (submitSpan) submitSpan.textContent = i18n[lang].formSuccess;
   btn.style.background = 'linear-gradient(135deg, #3D7A6E, #2d6057)';
   setTimeout(() => {
-    const ss = btn.querySelector('[data-i18n="form_submit"]');
-    if (ss) ss.textContent = i18n[lang].formSubmit;
-    else if (inner) inner.textContent = i18n[lang].formSubmit;
-    if (svgEl) inner.appendChild(svgEl.cloneNode(true));
+    if (submitSpan) submitSpan.textContent = i18n[lang].formSubmit;
     btn.style.background = '';
   }, 3500);
 }
