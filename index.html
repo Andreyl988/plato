@@ -3029,10 +3029,6 @@ const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
 
 if (window.innerWidth > 900 && dot && ring) {
-  document.documentElement.style.cursor = 'none';
-  document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
-    el.style.cursor = 'none';
-  });
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
