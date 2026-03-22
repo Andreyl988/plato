@@ -40,6 +40,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=2400&q=90">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/css/intlTelInput.css"/>
 
 <style>
 /* ═══════════════════════════════════════════
@@ -1330,8 +1331,9 @@ body.loaded .hero-actions {
   margin-bottom: 24px;
 }
 
-.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: end; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
 .f-group {
+  position: relative;
   display: flex; flex-direction: column; gap: 8px;
   margin-bottom: 12px;
 }
@@ -1386,6 +1388,89 @@ body.loaded .hero-actions {
   color: var(--smoke); line-height: 1.7;
 }
 .f-check-label a { color: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   REQUIRED MARK
+═══════════════════════════════════════════ */
+.f-required { color: var(--gold); font-size: 10px; }
+.f-hint { font-size: 12px; color: #e55; margin-top: 6px; }
+
+/* ═══════════════════════════════════════════
+   PHONE FIELD
+═══════════════════════════════════════════ */
+/* ── intl-tel-input dark theme ────────────────────────── */
+.iti { width: 100%; display: block; }
+.iti__selected-country {
+  background: transparent;
+  border-right: 1px solid var(--border);
+  padding: 0 10px;
+}
+.iti__selected-country:hover { background: rgba(255,255,255,0.04); }
+.iti__selected-dial-code { color: var(--cream); font-size: 14px; font-family: 'Outfit', sans-serif; }
+.iti__arrow { border-top-color: var(--ash); }
+.iti__arrow--up { border-bottom-color: var(--ash); }
+.iti__dropdown-content {
+  background: var(--onyx);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.iti__search-input {
+  background: var(--carbon);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--cream);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  width: 100%;
+}
+.iti__search-input::placeholder { color: var(--smoke); }
+.iti__country { color: var(--ash); padding: 8px 12px; }
+.iti__country-name { color: var(--ash); }
+.iti__dial-code { color: var(--smoke); }
+.iti__country.iti__highlight,
+.iti__country:hover { background: var(--carbon) !important; }
+.iti__country.iti__highlight .iti__country-name,
+.iti__country:hover .iti__country-name { color: var(--cream); }
+.iti__divider { border-bottom-color: var(--border); }
+/* error state */
+#phoneGroup.error .f-input { border-color: #e55; }
+
+#formPhone { caret-color: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--onyx); border: 1px solid var(--gold-dim);
+  color: var(--cream); font-size: 14px; font-weight: 300;
+  padding: 16px 20px 16px 24px; border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999; text-align: left;
+  display: flex; align-items: center; gap: 16px;
+  max-width: calc(100vw - 48px);
+  overflow: hidden;
+}
+#toast::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+}
+#toast.show {
+  opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto;
+}
+#toast-close {
+  flex-shrink: 0; background: none; border: none;
+  color: var(--ash); cursor: pointer; font-size: 18px; line-height: 1;
+  padding: 0; transition: color var(--t-fast);
+}
+#toast-close:hover { color: var(--cream); }
 
 /* ═══════════════════════════════════════════
    FOOTER
@@ -2851,14 +2936,23 @@ body.lang-en .countries::before { content: 'SEA'; }
     <div class="contact-form r d2">
       <div class="form-heading" data-i18n="form_heading">Получить консультацию</div>
       <div class="form-subhead" data-i18n="form_subhead">Ответим в течение 30 минут · Без обязательств</div>
+      <div class="f-group">
+        <label class="f-label" data-i18n="form_label_name">Имя <span class="f-required">*</span></label>
+        <input class="f-input" type="text" id="formName" data-i18n-placeholder="form_ph_name" placeholder="Ваше имя">
+      </div>
       <div class="f-row">
-        <div class="f-group">
-          <label class="f-label" data-i18n="form_label_name">Имя</label>
-          <input class="f-input" type="text" id="formName" data-i18n-placeholder="form_ph_name" placeholder="Ваше имя">
+        <div class="f-group" id="phoneGroup">
+          <label class="f-label">Телефон <span class="f-required">*</span></label>
+          <input class="f-input" type="tel" id="formPhone" autocomplete="tel">
+          <div class="f-hint" id="phoneHint" style="display:none;" data-i18n="form_phone_hint">Проверьте формат номера телефона</div>
         </div>
         <div class="f-group">
-          <label class="f-label" data-i18n="form_label_phone">Телефон / Telegram</label>
-          <input class="f-input" type="text" id="formPhone" placeholder="+7 или @username">
+          <label class="f-label">Способ связи <span class="f-required">*</span></label>
+          <select class="f-select" id="formContact">
+            <option value="" disabled selected>Выберите</option>
+            <option>WhatsApp</option>
+            <option>Telegram</option>
+          </select>
         </div>
       </div>
       <div class="f-group">
@@ -2895,15 +2989,6 @@ body.lang-en .countries::before { content: 'SEA'; }
         </select>
       </div>
       <div class="f-group">
-        <label class="f-label">Способ связи</label>
-        <select class="f-select" id="formContact">
-          <option value="" disabled selected>Как с вами связаться?</option>
-          <option>WhatsApp</option>
-          <option>Telegram</option>
-          <option>Не важно</option>
-        </select>
-      </div>
-      <div class="f-group">
         <label class="f-label" data-i18n="form_label_comment">Комментарий</label>
         <textarea class="f-textarea" id="formComment" data-i18n-placeholder="form_ph_comment" placeholder="Расскажите подробнее о вашем запросе..."></textarea>
       </div>
@@ -2916,6 +3001,9 @@ body.lang-en .countries::before { content: 'SEA'; }
     </div>
   </div>
 </section>
+
+<!-- TOAST -->
+<div id="toast"><span id="toast-msg"></span><button id="toast-close" aria-label="Закрыть">✕</button></div>
 
 <!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="successModal" style="display:none;">
@@ -3018,8 +3106,8 @@ body.lang-en .countries::before { content: 'SEA'; }
 //   i18n STRINGS (form feedback — kept for handleSubmit)
 // ═══════════════════════════════════════════
 const i18n = {
-  ru: { formSuccess: 'Заявка отправлена \u2713', formSubmit: 'Отправить заявку' },
-  en: { formSuccess: 'Request sent \u2713', formSubmit: 'Submit request' }
+  ru: { formSuccess: 'Заявка отправлена \u2713', formSubmit: 'Отправить заявку', toastMsg: (phone) => 'Заявка принята! Свяжемся с вами по\u00a0' + phone },
+  en: { formSuccess: 'Request sent \u2713', formSubmit: 'Submit request', toastMsg: (phone) => 'Request received! We\u2019ll reach you at\u00a0' + phone }
 };
 // lang variable is set dynamically by setLang; provide fallback
 let lang = localStorage.getItem('plato-lang') || 'ru';
@@ -3231,6 +3319,7 @@ if (hamburger && mobileMenu) {
 // ═══════════════════════════════════════════
 if (window.innerWidth > 900) {
   document.querySelectorAll('.btn-gold, .nav-cta').forEach(btn => {
+    if (btn.id === 'submitBtn') return; // skip form submit button
     btn.addEventListener('mousemove', e => {
       const rect = btn.getBoundingClientRect();
       const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
@@ -3250,26 +3339,100 @@ if (window.innerWidth > 900) {
 // ═══════════════════════════════════════════
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6DZMItnnr6s_zrAzZm6KFXyYV5ZAdotH4xAZh0lyuyhvwHRpJikS7mJpCaD6BT5cS/exec';
 
+// ═══════════════════════════════════════════
+//   PHONE FIELD — intl-tel-input
+// ═══════════════════════════════════════════
+let iti = null;
+
+(function initPhone() {
+  const phoneEl = document.getElementById('formPhone');
+  if (!phoneEl) return;
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInput.min.js';
+  script.onload = () => {
+    iti = intlTelInput(phoneEl, {
+      initialCountry: 'auto',
+      separateDialCode: true,
+      geoIpLookup: callback => {
+        fetch('https://ipapi.co/json')
+          .then(r => r.json())
+          .then(data => callback(data.country_code))
+          .catch(() => callback('ru'));
+      },
+      placeholderNumberType: 'MOBILE',
+      customPlaceholder: (placeholder) => placeholder.replace(/\d/g, '0'),
+      utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/utils.js'
+    });
+  };
+  document.head.appendChild(script);
+})();
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  const msgEl = document.getElementById('toast-msg');
+  const closeBtn = document.getElementById('toast-close');
+  if (!t || !msgEl) return;
+  msgEl.textContent = msg;
+  t.classList.add('show');
+  let timer = setTimeout(() => t.classList.remove('show'), 7000);
+  if (closeBtn) {
+    closeBtn.onclick = () => { clearTimeout(timer); t.classList.remove('show'); };
+  }
+}
+
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const inner = btn.querySelector('.btn-gold-inner');
-  const nameInput = document.getElementById('formName');
-  if (nameInput && !nameInput.value.trim()) {
-    nameInput.style.borderColor = '#e55';
-    nameInput.focus();
-    return;
+
+  const nameInput    = document.getElementById('formName');
+  const phoneInput   = document.getElementById('formPhone');
+  const contactInput = document.getElementById('formContact');
+
+  let invalid = false;
+  const phoneGroup = document.getElementById('phoneGroup');
+  const phoneHint  = document.getElementById('phoneHint');
+
+  // Валидация телефона через intl-tel-input
+  const phoneValid = iti && iti.isValidNumber();
+  if (!phoneValid) {
+    if (phoneGroup) phoneGroup.classList.add('error');
+    if (phoneHint) {
+      phoneHint.textContent = (translations[lang] || translations.ru).form_phone_hint;
+      phoneHint.style.display = 'block';
+    }
+    invalid = true;
+  } else {
+    if (phoneGroup) phoneGroup.classList.remove('error');
+    if (phoneHint) phoneHint.style.display = 'none';
   }
-  const svgEl = inner.querySelector('svg');
-  const submitSpan = inner.querySelector('[data-i18n="form_submit"]');
+
+  // Валидация имени
+  if (!nameInput.value.trim()) {
+    nameInput.style.borderColor = '#e55';
+    invalid = true;
+  } else {
+    nameInput.style.borderColor = '';
+  }
+
+  // Валидация способа связи
+  if (!contactInput.value) {
+    contactInput.style.borderColor = '#e55';
+    invalid = true;
+  } else {
+    contactInput.style.borderColor = '';
+  }
+
+  if (invalid) return;
+
+  // E.164 format via intl-tel-input
+  const phone = iti ? iti.getNumber() : phoneInput.value;
 
   const data = {
-    name:    (document.getElementById('formName')          || {}).value || '',
-    phone:   (document.getElementById('formPhone')         || {}).value || '',
+    name:    nameInput.value.trim(),
+    phone:   phone,
+    contact: contactInput.value,
     country: (document.getElementById('formSelectCountry') || {}).value || '',
     budget:  (document.getElementById('formSelectBudget')  || {}).value || '',
     goal:    (document.getElementById('formSelectGoal')    || {}).value || '',
-    contact: (document.getElementById('formContact')       || {}).value || '',
     comment: (document.getElementById('formComment')       || {}).value || ''
   };
 
@@ -3278,19 +3441,17 @@ function handleSubmit(e) {
     body: JSON.stringify(data)
   }).catch(() => {});
 
-  // Показываем попап
-  const successModal = document.getElementById('successModal');
-  const successContact = document.getElementById('successContact');
-  if (successContact) successContact.textContent = data.phone || '';
-  if (successModal) successModal.style.display = 'flex';
+  const toastFn = (i18n[lang] || i18n.ru).toastMsg;
+  showToast(toastFn(phone));
 
-  // Сбрасываем кнопку (без дублирования стрелки)
-  if (submitSpan) submitSpan.textContent = i18n[lang].formSuccess;
-  btn.style.background = 'linear-gradient(135deg, #3D7A6E, #2d6057)';
-  setTimeout(() => {
-    if (submitSpan) submitSpan.textContent = i18n[lang].formSubmit;
-    btn.style.background = '';
-  }, 3500);
+  // Сброс формы
+  document.getElementById('formName').value = '';
+  if (iti) iti.setNumber('');
+  document.getElementById('formContact').value = '';
+  document.getElementById('formSelectCountry').value = '';
+  document.getElementById('formSelectBudget').value = '';
+  document.getElementById('formSelectGoal').value = '';
+  document.getElementById('formComment').value = '';
 }
 
 // ═══════════════════════════════════════════
@@ -3422,6 +3583,11 @@ if (modalClose) {
 if (modal) {
   modal.addEventListener('click', e => {
     if (e.target === modal) {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    // Close modal when clicking CTA links inside it
+    if (e.target.closest('a[href^="#"]')) {
       modal.classList.remove('open');
       document.body.style.overflow = '';
     }
@@ -3701,6 +3867,7 @@ const translations = {
     form_ph_comment: 'Расскажите подробнее о вашем запросе...',
     form_privacy: 'Согласен с <a href="#">политикой конфиденциальности</a> и обработкой персональных данных',
     form_submit: 'Отправить заявку',
+    form_phone_hint: 'Проверьте формат номера телефона',
     // Footer
     footer_brand_desc: 'Премиальное инвестиционное агентство. Недвижимость Юго-Восточной Азии с доходностью 8–15% годовых. Полное сопровождение под ключ.',
     footer_col_destinations: 'Направления',
@@ -3981,6 +4148,7 @@ const translations = {
     form_ph_comment: 'Tell us more about your request...',
     form_privacy: 'I agree to the <a href="#">privacy policy</a> and processing of personal data',
     form_submit: 'Submit Request',
+    form_phone_hint: 'Please check the phone number format',
     // Footer
     footer_brand_desc: 'Premium investment agency. Real estate in Southeast Asia with 8–15% annual returns. Full turnkey service.',
     footer_col_destinations: 'Destinations',
