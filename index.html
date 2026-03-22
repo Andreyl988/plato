@@ -2854,11 +2854,11 @@ body.lang-en .countries::before { content: 'SEA'; }
       <div class="f-row">
         <div class="f-group">
           <label class="f-label" data-i18n="form_label_name">Имя</label>
-          <input class="f-input" type="text" data-i18n-placeholder="form_ph_name" placeholder="Ваше имя">
+          <input class="f-input" type="text" id="formName" data-i18n-placeholder="form_ph_name" placeholder="Ваше имя">
         </div>
         <div class="f-group">
           <label class="f-label" data-i18n="form_label_phone">Телефон / Telegram</label>
-          <input class="f-input" type="text" placeholder="+7 или @username">
+          <input class="f-input" type="text" id="formPhone" placeholder="+7 или @username">
         </div>
       </div>
       <div class="f-group">
@@ -2896,7 +2896,7 @@ body.lang-en .countries::before { content: 'SEA'; }
       </div>
       <div class="f-group">
         <label class="f-label" data-i18n="form_label_comment">Комментарий</label>
-        <textarea class="f-textarea" data-i18n-placeholder="form_ph_comment" placeholder="Расскажите подробнее о вашем запросе..."></textarea>
+        <textarea class="f-textarea" id="formComment" data-i18n-placeholder="form_ph_comment" placeholder="Расскажите подробнее о вашем запросе..."></textarea>
       </div>
       <div class="f-check">
         <input class="f-check-box" type="checkbox" id="pp" checked>
@@ -3229,12 +3229,13 @@ if (window.innerWidth > 900) {
 // ═══════════════════════════════════════════
 //   FORM SUBMIT (secure — textContent)
 // ═══════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6DZMItnnr6s_zrAzZm6KFXyYV5ZAdotH4xAZh0lyuyhvwHRpJikS7mJpCaD6BT5cS/exec';
+
 function handleSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   const inner = btn.querySelector('.btn-gold-inner');
-  // Basic validation
-  const nameInput = document.querySelector('.f-input[type="text"]');
+  const nameInput = document.getElementById('formName');
   if (nameInput && !nameInput.value.trim()) {
     nameInput.style.borderColor = '#e55';
     nameInput.focus();
@@ -3242,13 +3243,27 @@ function handleSubmit(e) {
   }
   const svgEl = inner.querySelector('svg');
   const submitSpan = inner.querySelector('[data-i18n="form_submit"]');
+
+  const data = {
+    name:    (document.getElementById('formName')    || {}).value || '',
+    phone:   (document.getElementById('formPhone')   || {}).value || '',
+    country: (document.getElementById('formSelectCountry') || {}).value || '',
+    budget:  (document.getElementById('formSelectBudget')  || {}).value || '',
+    goal:    (document.getElementById('formSelectGoal')    || {}).value || '',
+    comment: (document.getElementById('formComment') || {}).value || ''
+  };
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).catch(() => {});
+
   if (submitSpan) {
     submitSpan.textContent = i18n[lang].formSuccess;
   } else {
     inner.textContent = i18n[lang].formSuccess;
   }
   btn.style.background = 'linear-gradient(135deg, #3D7A6E, #2d6057)';
-  // TODO: replace with fetch('/api/submit', ...) for real backend
   setTimeout(() => {
     const ss = btn.querySelector('[data-i18n="form_submit"]');
     if (ss) ss.textContent = i18n[lang].formSubmit;
