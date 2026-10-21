@@ -125,6 +125,27 @@
 .hero-presentation-actions .hero-download small{display:block;font-size:10px;line-height:1.15;margin-top:3px;color:#8086a0}
 @media(max-width:640px){.hero-card .hero-presentation-actions .btn{font-size:14px;min-height:54px}.hero-presentation-actions .hero-messenger svg{width:19px;height:19px}.gallery-section{margin-top:405px}}
 
+
+/* Investment tour dialog */
+.tour-dialog{border:0;border-radius:30px;padding:42px;width:590px;max-width:calc(100vw - 28px);max-height:92dvh;overflow:auto;color:var(--ink);background:#fff;box-shadow:0 24px 80px #10131d33}
+.tour-dialog::backdrop{background:#10131dc9;backdrop-filter:blur(5px)}
+.tour-dialog>.eyebrow{display:block;color:#8c95aa;font-size:11px;letter-spacing:1.6px;padding-right:32px}
+.tour-dialog h2{font-size:34px;line-height:1.08;letter-spacing:-.5px;margin:18px 0}
+.tour-intro{font-size:18px;line-height:1.45;color:#636775}
+.tour-benefits{list-style:none;padding:22px;margin:24px 0;background:var(--soft);border-radius:20px;display:grid;gap:14px}
+.tour-benefits li{display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.4}
+.tour-benefits li:before{content:'✓';color:var(--blue);flex:none}
+.tour-channels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tour-channels .channel-button{min-height:48px;font-size:14px;padding:12px 8px;gap:7px}
+.tour-channels svg{width:20px;height:20px;flex:none}
+.tour-note{font-size:12px;line-height:1.45;color:#868b98;margin-top:14px}
+.tour-copy-fallback{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+.tour-copy-fallback[hidden]{display:none}
+.tour-copy-fallback p{font-size:14px;line-height:1.4;margin-bottom:10px}
+.tour-copy-fallback textarea{width:100%;min-height:90px;resize:none;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:16px;color:var(--ink);background:#fff;margin-bottom:12px}
+.tour-copy-fallback .btn{width:100%;font-size:14px}
+@media(max-width:640px){.tour-dialog{padding:34px 24px 26px;border-radius:25px}.tour-dialog h2{font-size:29px}.tour-intro{font-size:16px}.tour-benefits{padding:18px;margin:20px 0;gap:12px}.tour-benefits li{font-size:15px}.tour-channels{grid-template-columns:1fr}.tour-channels .channel-button{min-height:46px}.tour-note{font-size:11px}}
+@media print{.tour-dialog{display:none!important}}
 </style>
 <style id="construction-photo-styles">
 /* Construction photographs stay within the existing report cards. */
@@ -187,12 +208,13 @@
 <section class="section wide service-banner installments" id="installments"><div class="service-copy"><span class="eyebrow">Удобный график покупки</span><h2>Рассрочка<br>от застройщика</h2><p>Рассрочка 0% до завершения строительства: первый взнос 20%, затем 40% в период строительства и 40% перед приёмкой. Платежи раз в месяц или полгода, возможен индивидуальный график.</p><button type="button" class="btn blue" data-contact="Узнать условия рассрочки">Узнать условия рассрочки</button><div class="contact-methods" data-context="Рассрочка от застройщика"></div></div><div class="installment-visual"><img data-asset="roof" alt="Rooftop Time Square 9" loading="lazy"><span class="percent-mark" aria-hidden="true">%</span><span class="image-pill">Ваш график. Ваши возможности.</span></div></section>
 <section class="section inner" id="partner-projects"><div class="section-heading"><h2>Другие проекты<br>застройщика</h2><span class="heading-pill">Недвижимость для инвестиций</span></div><p class="section-lead">Другие проекты Time Square в Пномпене и Сиануквиле.</p><div class="partner-grid" id="partner-grid"></div></section>
 <section class="section wide construction" id="construction"><div class="construction-head"><div><span class="eyebrow">Time Square 9</span><h2>Ход строительства<br>проекта</h2></div><div class="construction-deadline"><span>Плановая готовность</span><strong>Июнь 2029</strong></div></div><div class="construction-years" id="construction-years" aria-label="Год строительства"></div><div class="construction-quarters" id="construction-quarters" aria-label="Квартал строительства"></div><div class="construction-content" id="construction-content" aria-live="polite"></div></section>
-<section class="section inner viewing" id="viewing"><span class="eyebrow">Познакомьтесь с проектом ближе</span><h2>Запишитесь<br>на онлайн-просмотр</h2><p></p><div class="viewing-options"><button type="button" class="viewing-option active" data-viewing="Онлайн-просмотр" aria-pressed="true"><span class="option-symbol" aria-hidden="true">◉</span><strong>Онлайн-просмотр</strong><span>Проект и ответы на ваши вопросы</span></button><button type="button" class="viewing-option" data-viewing="Инвестиционный тур" aria-pressed="false"><span class="option-symbol" aria-hidden="true">↗</span><strong>Инвестиционный тур</strong><span>Знакомство с проектом в Камбодже</span></button></div><div class="viewing-actions"><button type="button" class="btn outline" id="book-viewing">Записаться на сайте</button><div class="contact-methods" id="viewing-channels" data-context="Онлайн-просмотр" data-no-call="true"></div></div></section>
+<section class="section inner viewing" id="viewing"><span class="eyebrow">Познакомьтесь с проектом ближе</span><h2>Запишитесь<br>на онлайн-просмотр</h2><p></p><div class="viewing-options"><button type="button" class="viewing-option active" data-viewing="Онлайн-просмотр" aria-pressed="true"><span class="option-symbol" aria-hidden="true">◉</span><strong>Онлайн-просмотр</strong><span>Проект и ответы на ваши вопросы</span></button><button type="button" class="viewing-option" data-viewing="Инвестиционный тур" aria-haspopup="dialog" aria-controls="tour-dialog" aria-pressed="false"><span class="option-symbol" aria-hidden="true">↗</span><strong>Инвестиционный тур</strong><span>Знакомство с проектом в Камбодже</span></button></div><div class="viewing-actions"><button type="button" class="btn outline" id="book-viewing">Записаться на сайте</button><div class="contact-methods" id="viewing-channels" data-context="Онлайн-просмотр" data-no-call="true"></div></div></section>
 </main>
 <footer class="footer wide"><div class="footer-top"><a class="footer-logo" href="#top">TIME SQUARE 9 <span>THE GATSBY RESIDENCE</span></a><nav aria-label="Навигация внизу страницы"><a href="#presentation">Презентация</a><a href="#gallery">Галерея</a><a href="#infrastructure">Инфраструктура</a><a href="#layouts">Планировки</a><a href="#construction">Ход строительства</a><a href="#partner-projects">Другие проекты</a></nav></div><div class="footer-contact"><div><span class="footer-caption">Горячая линия проекта</span><button type="button" class="hotline" data-contact="Позвоните эксперту" data-channel="phone" data-hotline=""></button><div class="contact-methods" data-context="Консультация по Time Square 9" data-no-call="true"></div></div><div><p>Всё о проекте, инфраструктуре<br>и инвестиционных возможностях.</p><button type="button" class="btn blue" data-contact="Получить каталог проекта" data-channel="phone">Получить каталог</button></div></div><div class="footer-bottom"><span>Пномпень, Камбоджа · BKK1</span><span>Информация о проекте. Не является публичной офертой.</span></div></footer>
 
 <button class="expert-launcher" id="expert-launcher" type="button" aria-controls="expert-card" aria-expanded="false"><span data-icon="chat"></span><span>Эксперт проекта</span></button>
 <aside class="expert-card" id="expert-card" aria-label="Эксперт проекта" hidden=""><button type="button" class="expert-close" id="expert-close" aria-label="Свернуть карточку эксперта">×</button><div class="expert-avatar" data-expert-avatar=""></div><h3 data-expert-name=""></h3><p>Позвоните эксперту<br>проекта для консультации</p><div class="contact-methods" data-context="Консультация по проекту" data-no-call="true" data-icons-only="true"></div><button type="button" class="expert-call" data-contact="Позвоните эксперту" data-channel="phone" data-hotline=""></button></aside>
+<dialog class="tour-dialog" id="tour-dialog" aria-labelledby="tour-title" aria-describedby="tour-intro"><button type="button" class="dialog-close" aria-label="Закрыть информацию об инвесттуре">×</button><span class="eyebrow">Камбоджа · Plato estate</span><h2 id="tour-title">Инвестиционный тур<br>в Камбоджу</h2><p class="tour-intro" id="tour-intro">Поможем организовать поездку: совместите отдых и знакомство со страной с выбором недвижимости для инвестиций.</p><ul class="tour-benefits"><li>Организуем просмотры проектов и трансферы</li><li>Поможем с банковской картой и SIM-картой</li><li>Подскажем маршрут для знакомства со страной</li></ul><div class="tour-channels" id="tour-channels" aria-label="Узнать об инвестиционном туре"></div><p class="tour-note">В WhatsApp и Telegram сообщение уже будет подготовлено. Для MAX скопируем текст — останется вставить его в чат.</p><div class="tour-copy-fallback" id="tour-copy-fallback" hidden><p role="status">Не удалось скопировать автоматически. Скопируйте текст ниже и перейдите в MAX.</p><textarea id="tour-message" readonly aria-label="Сообщение об инвестиционном туре">Добрый день, интересует информация по инвесттуру.</textarea><a class="btn blue" id="tour-max-fallback" target="_blank" rel="noopener noreferrer">Перейти в MAX</a></div></dialog>
 <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title"><button class="dialog-close" aria-label="Закрыть форму">×</button><div class="contact-person"><div class="expert-avatar" data-expert-avatar=""></div><div><strong data-expert-name=""></strong><span data-expert-role=""></span></div></div><span class="eyebrow">Time Square 9</span><h2 id="contact-title">Связаться с экспертом</h2><p class="contact-intro">Выберите удобный способ связи с PLATO Estate.</p><div class="contact-channel-tabs" id="contact-channel-tabs" aria-label="Способ связи"></div><p class="channel-availability" id="channel-availability" aria-live="polite"></p><a class="btn blue direct-contact" id="direct-contact" hidden="" target="_blank" rel="noopener noreferrer">Открыть чат</a><form id="contact-form"><label>Ваше имя<input name="name" autocomplete="given-name" placeholder="Как к вам обращаться" required="" maxlength="80"></label><label>Номер телефона<input name="contact" autocomplete="tel" required="" type="tel" inputmode="tel" placeholder="Ваш номер телефона" minlength="10" maxlength="32"></label><p class="form-status">Приём заявок через форму пока не подключён. Напишите нам в мессенджере.</p><button class="btn blue" type="submit" disabled>Отправить заявку</button></form></dialog>
 <a class="back-top" href="#top" aria-label="Вернуться наверх">⌃</a>
 <dialog id="photo-dialog" class="photo-dialog"><button class="dialog-close" aria-label="Закрыть просмотр">×</button><button class="photo-prev" aria-label="Предыдущее фото">‹</button><figure><img id="dialog-image" alt=""><figcaption id="dialog-caption"></figcaption></figure><button class="photo-next" aria-label="Следующее фото">›</button></dialog>
@@ -367,14 +389,16 @@ $$('.range-filter').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)$$('.r
 document.addEventListener('click',e=>{if(!e.target.closest('.range-filter'))$$('.range-filter').forEach(d=>d.open=false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.range-filter[open]').forEach(d=>{d.open=false;d.querySelector('summary').focus()})});
 
+const tourMessage='Добрый день, интересует информация по инвесттуру.';
 const channelNames={phone:'Позвонить',whatsapp:'WhatsApp',telegram:'Telegram',max:'MAX'};
 function channelButtons(context,{noCall=false,iconsOnly=false}={}){return Object.entries(channelNames).filter(([key])=>!noCall||key!=='phone').map(([key,label])=>{
 const name=key==='phone'?'Позвонить в PLATO Estate':`Написать в ${label} — PLATO Estate`;
 const value=siteContent.contacts[key]||'';
 let href=key==='phone'?(value?`tel:${value.replace(/[^+\d]/g,'')}`:''):safeLink(value);
 if(href&&key==='whatsapp'){const url=new URL(href);url.searchParams.set('text',`Здравствуйте! Интересует Time Square 9. ${context}.`);href=url.href}
+if(href&&context==='Инвестиционный тур'&&['whatsapp','telegram'].includes(key)){const url=new URL(href);url.searchParams.set('text',tourMessage);href=url.href}
 const inner=`${icon(key)}${iconsOnly?'':`<span>${label}</span>`}`;
-const attrs=`class="channel-button ${key}${iconsOnly?' icon-only':''}" aria-label="${escapeHTML(name)}" title="${escapeHTML(label)}"`;
+const attrs=`class="channel-button ${key}${iconsOnly?' icon-only':''}" aria-label="${escapeHTML(name)}" title="${escapeHTML(label)}"${context==='Инвестиционный тур'&&key==='max'?' data-tour-max':''}`;
 return href?`<a ${attrs} href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer">${inner}</a>`:`<button type="button" ${attrs} data-contact="${escapeHTML(context)}" data-channel="${key}">${inner}</button>`;
 }).join('')}
 
@@ -448,9 +472,37 @@ function renderConstruction(){
 }
 Object.keys(siteContent.construction).sort().forEach(year=>{const b=document.createElement('button');b.type='button';b.dataset.year=year;b.textContent=year;b.addEventListener('click',()=>{constructionYear=year;const quarters=constructionQuarters(year);constructionQuarter=quarters.at(-1)||'4';renderConstruction()});$('#construction-years').append(b)});
 ['I','II','III','IV'].forEach((q,i)=>{const b=document.createElement('button');b.type='button';b.dataset.quarter=String(i+1);b.textContent=`${q} квартал`;b.addEventListener('click',()=>{constructionQuarter=String(i+1);renderConstruction()});$('#construction-quarters').append(b)});
+const tourDialog=$('#tour-dialog');
+function openTour(){
+ $('#tour-copy-fallback').hidden=true;
+ if(!tourDialog.open)tourDialog.showModal();
+ document.body.classList.add('dialog-open');
+}
+$('#tour-channels').innerHTML=channelButtons('Инвестиционный тур',{noCall:true});
+$('#tour-max-fallback').href=safeLink(siteContent.contacts.max);
+tourDialog.querySelector('.dialog-close').addEventListener('click',()=>tourDialog.close());
+tourDialog.addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))document.body.classList.remove('dialog-open')});
+tourDialog.addEventListener('click',e=>{if(e.target===tourDialog){const r=tourDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)tourDialog.close()}});
+document.addEventListener('click',async e=>{
+ const link=e.target.closest('a[data-tour-max]');
+ if(!link||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+ e.preventDefault();
+ try{
+  if(!navigator.clipboard||!window.isSecureContext)throw new Error('Clipboard unavailable');
+  await navigator.clipboard.writeText(tourMessage);
+ }catch{
+  if(!tourDialog.open)openTour();
+  $('#tour-copy-fallback').hidden=false;
+  $('#tour-message').focus();$('#tour-message').select();
+  return;
+ }
+ window.location.assign(link.href);
+});
+
+const viewingBookButton=$('#book-viewing'),viewingBookDefault={disabled:viewingBookButton.disabled,label:viewingBookButton.textContent};
 let viewingType='Онлайн-просмотр';
-$$('[data-viewing]').forEach(b=>b.addEventListener('click',()=>{viewingType=b.dataset.viewing;$$('[data-viewing]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});$('#viewing-channels').dataset.context=viewingType;renderContactMethods()}));
-$('#book-viewing').addEventListener('click',()=>openContact(`Записаться: ${viewingType}`));
+$$('[data-viewing]').forEach(b=>b.addEventListener('click',()=>{viewingType=b.dataset.viewing;$$('[data-viewing]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});$('#viewing-channels').dataset.context=viewingType;renderContactMethods();const isTour=viewingType==='Инвестиционный тур';viewingBookButton.disabled=isTour?false:viewingBookDefault.disabled;viewingBookButton.textContent=isTour?'Узнать об инвесттуре':viewingBookDefault.label;if(isTour)openTour()}));
+$('#book-viewing').addEventListener('click',()=>viewingType==='Инвестиционный тур'?openTour():openContact(`Записаться: ${viewingType}`));
 renderGallery('all');showAbout(0);renderApartments();calculate();stickyHeader();renderLayouts();renderConstruction();renderContactMethods();connectAlbumButtons();
 
 const catalogPhone=document.querySelector('#contact-form input[name=contact]');catalogPhone.addEventListener('input',()=>{const digits=catalogPhone.value.replace(/[^0-9]/g,'');catalogPhone.setCustomValidity(digits.length>=10&&digits.length<=15?'':'Укажите номер телефона: от 10 до 15 цифр')});
