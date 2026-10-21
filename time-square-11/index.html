@@ -341,8 +341,17 @@ function renderLayouts(){
 siteContent.layouts.forEach(group=>{const b=document.createElement('button');b.dataset.layoutType=group.type;b.textContent=group.tabLabel||(group.type==='studio'?'Студия':group.type==='4'?'4+':group.type);b.setAttribute('aria-label',group.label);b.addEventListener('click',()=>{layoutType=group.type;layoutIndex=0;renderLayouts()});$('#layout-types').append(b)});
 function connectAlbumButtons(){$$('.album-download,[data-contact^="Получить каталог"],[data-contact^="Получить презентацию"]').forEach(button=>{const layout=!!button.closest('#layouts'),url=safeLink(layout?siteContent.layoutAlbumUrl:siteContent.albumUrl);if(url){const a=document.createElement('a');a.className=button.className;a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=layout?'Скачать планировки':'Скачать презентацию';button.replaceWith(a)}else{button.removeAttribute('data-contact');button.removeAttribute('data-channel');button.disabled=true;button.textContent='Скоро появится'}})}
 
+// Developer cards may link only to project pages on Plato estate.
+function projectPageLink(value){const link=safeLink(value);if(!link)return '';try{const url=new URL(link,'https://plato.estate/');return url.origin==='https://plato.estate'?url.href:''}catch{return ''}}
 const projects=siteContent.partnerProjects||[],partnerGrid=$('#partner-grid');
-if(projects.length){projects.forEach(p=>{const card=document.createElement('article');card.className='partner-card';const src=imageSource(p.image),link=safeLink(p.url);card.innerHTML=`${src?`<img src="${src}" alt="${escapeHTML(p.name)}" loading="lazy">`:icon('building')}<div><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.location||'')}</p>${link?`<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">Подробнее ↗</a>`:''}</div>`;partnerGrid.append(card)})}
+if(projects.length){projects.forEach(p=>{
+ const card=document.createElement('article'),gallery=p.photos||[];card.className='partner-card'+(gallery.length?' has-gallery':'');
+ const src=imageSource(p.image),link=projectPageLink(p.url);
+ const cover=src?`<img src="${src}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async">`:icon('building');
+ card.innerHTML=`${gallery.length?`<button type="button" class="partner-gallery-cover" aria-label="Открыть фотографии ${escapeHTML(p.name)}" aria-haspopup="dialog">${cover}<span class="partner-photo-count">${gallery.length} фото</span></button>`:cover}<div><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.location||'')}</p>${p.status?`<p class="partner-status">${escapeHTML(p.status)}</p>`:''}${gallery.length?`<button type="button" class="partner-gallery-action" aria-haspopup="dialog">Смотреть ${gallery.length} фото</button>`:link?`<a href="${escapeHTML(link)}">Подробнее ↗</a>`:''}</div>`;
+ if(gallery.length){const openGallery=()=>openPhotos(gallery.map(photo=>({asset:photo.asset,title:`${p.name} · ${photo.title}`,caption:p.status||''})),0);card.querySelectorAll('.partner-gallery-cover,.partner-gallery-action').forEach(button=>button.addEventListener('click',openGallery))}
+ partnerGrid.append(card)
+})}
 else{partnerGrid.innerHTML=[1,2,3].map(i=>`<article class="partner-placeholder"><span class="placeholder-index">0${i}</span>${icon('building')}<div><h3>Скоро появится</h3><p>Другие проекты застройщика</p></div></article>`).join('')}
 let constructionYear='2026',constructionQuarter='4';
 function constructionQuarters(year){return Object.keys(siteContent.construction[year]||{}).filter(q=>siteContent.construction[year][q]?.length).sort((a,b)=>Number(a)-Number(b))}
