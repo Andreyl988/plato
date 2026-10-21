@@ -111,6 +111,20 @@
 .header-contacts .channel-button.icon-only{width:26px;height:26px;min-width:26px;min-height:26px;padding:6px}
 }
 
+
+/* Presentation actions follow the approved four-button design. */
+.hero-card .hero-presentation-actions{display:grid;grid-template-columns:1fr;gap:6px;grid-column:1/-1}
+.hero-card .hero-presentation-actions .btn{margin:0;gap:6px;font-size:13px;min-height:54px;padding:14px 8px}
+.hero-presentation-actions .hero-messenger{color:#fff}
+.hero-presentation-actions .hero-whatsapp{background:#63a75d}
+.hero-presentation-actions .hero-telegram{background:#4b619b}
+.hero-presentation-actions .hero-max{background:#6256a4}
+.hero-presentation-actions .hero-messenger>span[data-icon]{display:flex;align-items:center}
+.hero-presentation-actions .hero-messenger svg{width:17px;height:17px;flex:none}
+.hero-presentation-actions .hero-messenger>span:last-child{white-space:nowrap}
+.hero-presentation-actions .hero-download small{display:block;font-size:10px;line-height:1.15;margin-top:3px;color:#8086a0}
+@media(max-width:640px){.hero-card .hero-presentation-actions .btn{font-size:14px;min-height:54px}.hero-presentation-actions .hero-messenger svg{width:19px;height:19px}.gallery-section{margin-top:405px}}
+
 </style>
 <style id="construction-photo-styles">
 /* Construction photographs stay within the existing report cards. */
@@ -153,7 +167,7 @@
 <section class="hero-shell" aria-labelledby="hero-title"><div class="hero" data-bg="hero">
 <div class="hero-inner"><a class="map-pill" href="https://maps.app.goo.gl/rXD2irkQzJobiSXt8" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">⌖</span> Посмотреть на карте</a>
 <div class="hero-copy"><h1 id="hero-title">Time Square 9<br>The Gatsby Residence</h1><p class="hero-subtitle">Резиденции с отделкой под ключ в BKK1, самом центре Пномпеня</p><dl class="hero-facts"><div><dt>площадь апартаментов</dt><dd>60–190 м² gross</dd></div><div><dt>стоимость</dt><dd>от $92 500</dd></div></dl></div>
-<aside class="hero-card"><div class="mini-book" aria-hidden="true"><div data-bg="hero"><span>TIME SQUARE 9<br>THE GATSBY RESIDENCE</span></div><div data-bg="roof"><span>PHNOM PENH<br>BKK1</span></div></div><h2>Презентация<br> проекта</h2><button type="button" class="btn outline" data-contact="Получить каталог проекта" data-channel="phone">Получить каталог</button><a class="btn sage" href="#apartments">Выбрать апартаменты</a><a class="btn blue" href="#investment">Посмотреть доходность</a><a class="btn violet" href="#gallery">Все фотографии</a></aside>
+<aside class="hero-card"><div class="mini-book" aria-hidden="true"><div data-bg="hero"><span>TIME SQUARE 9<br>THE GATSBY RESIDENCE</span></div><div data-bg="roof"><span>PHNOM PENH<br>BKK1</span></div></div><h2>Презентация<br> проекта</h2><div class="hero-presentation-actions"><a class="btn outline hero-download" href="assets/time-square-9-presentation.pdf" download="time-square-9-presentation.pdf">Скачать на сайте</a><a class="btn hero-messenger hero-whatsapp" href="https://wa.me/85511730787?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21+%D0%9F%D1%80%D0%B8%D1%88%D0%BB%D0%B8%D1%82%D0%B5%2C+%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C+%D0%BF%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8E+Time+Square+9." target="_blank" rel="noopener noreferrer" aria-label="Получить презентацию в WhatsApp — PLATO Estate"><span data-icon="whatsapp" aria-hidden="true"></span><span>Получить в WhatsApp</span></a><a class="btn hero-messenger hero-telegram" href="https://t.me/platoestate" target="_blank" rel="noopener noreferrer" aria-label="Получить презентацию в Telegram — PLATO Estate"><span data-icon="telegram" aria-hidden="true"></span><span>Получить в Telegram</span></a><a class="btn hero-messenger hero-max" href="https://max.ru/u/f9LHodD0cOKUeSflT9MxcSbnPGYqZRN3BnHyX4T1QvqFaFTnD3XJnfz3XuY" target="_blank" rel="noopener noreferrer" aria-label="Получить презентацию в Max — PLATO Estate"><span data-icon="max" aria-hidden="true"></span><span>Получить в Max</span></a></div></aside>
 </div></div><div class="hero-under inner"><p>Архитектура, инфраструктура<br>и условия покупки <span aria-hidden="true">⟶</span></p></div></section>
 <section class="section inner gallery-section" id="gallery"><h2>Галерея Time Square 9</h2><div class="tabs" id="gallery-tabs" role="tablist" aria-label="Категории галереи"></div><div class="gallery-grid" id="gallery-grid" role="tabpanel" aria-label="Фотографии проекта"></div></section>
 <section class="section inner about-section" id="about"><div class="section-heading"><h2>О проекте Time Square 9</h2><span class="heading-pill">The Gatsby Residence</span></div><div class="about-stack"><article class="about-card" id="about-card" aria-live="polite"><div><h3 id="about-title"></h3><p id="about-text"></p></div><figure><img id="about-image" alt=""><figcaption id="about-caption"></figcaption></figure></article></div><div class="slide-dots" id="about-tabs" aria-label="Описание проекта"></div></section>
