@@ -75,16 +75,7 @@ function calculateScenario(price, rent, months, fee) {
     $('#calc-yield').textContent = scenario ? percent(scenario.yieldPercent) : '—';
   };
   fields.forEach(field => field.addEventListener('input', updateCalculator));
-  $('.calc-reset').addEventListener('click', () => {
-    fields.forEach((field, i) => {field.value = [100000, 1000, 11, 10][i];});
-    updateCalculator();
-  });
   updateCalculator();
-
-  const checks = $$('.checklist input');
-  checks.forEach(input => input.addEventListener('change', () => {
-    $('#checklist-count').textContent = 'Продумано ' + checks.filter(check => check.checked).length + ' из 5 вопросов';
-  }));
 
   const syncDialogState = () => document.body.classList.toggle('dialog-open', !!$('dialog[open]'));
   const openDialog = dialog => { dialog.showModal(); syncDialogState(); };

@@ -16,3 +16,6 @@
 button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:640px){.floating-contact{width:46px;height:46px;padding:12px;justify-content:center}.floating-contact span{display:none}}
 
 .header nav.menu{display:block;margin-left:0}
+
+/* Investor FAQ and concise market comparison */
+.checklist details:last-of-type{border-bottom:0}.checklist details>p{padding-bottom:22px}.compare-yield{font-size:26px;font-weight:600;color:var(--blue)}.yield-basis{display:block;font-size:13px;color:var(--muted);margin-top:5px}.compare-source{font-size:12px;color:var(--muted);margin-top:16px}
