@@ -127,7 +127,8 @@
 
 
 /* Online viewing schedule and investment tour message. */
-.viewing-schedule{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;min-width:0}.viewing-schedule label{min-width:0}.viewing-schedule p{grid-column:1/-1;color:#85858b;font-size:12px;margin:0}#contact-form .viewing-schedule input{padding-inline:12px;min-height:52px;max-width:100%;font-size:16px}
+.viewing-schedule{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;min-width:0}.viewing-schedule label{min-width:0}.viewing-schedule p{grid-column:1/-1;color:#85858b;font-size:12px;margin:0}#contact-form .viewing-schedule input{appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;min-width:0;max-width:100%;height:54px;padding:15px 18px;font-size:16px}#contact-form .viewing-schedule input::-webkit-date-and-time-value{min-width:0;text-align:left}
+@media(max-width:640px){.viewing-schedule{grid-template-columns:minmax(0,1fr)}}
 .tour-message-panel{margin-top:16px}.tour-message-panel label{font-size:13px;color:#85858b}.tour-message-panel textarea{display:block;width:100%;min-height:120px;padding:12px;margin:6px 0 12px;border:1px solid #e2e5ec;border-radius:14px;font:inherit;font-size:15px;resize:vertical}.tour-message-panel .btn{width:100%;min-height:54px;font-size:14px}
 
 
@@ -207,7 +208,7 @@
 
 <button class="expert-launcher" id="expert-launcher" type="button" aria-controls="expert-card" aria-expanded="false"><span data-icon="chat"></span><span>Project expert</span></button>
 <aside class="expert-card" id="expert-card" aria-label="Project expert" hidden=""><button type="button" class="expert-close" id="expert-close" aria-label="Minimise expert card">×</button><div class="expert-avatar" data-expert-avatar=""></div><h3 data-expert-name=""></h3><p>Message an expert<br>for a consultation</p><div class="contact-methods" data-context="Project consultation" data-no-call="true" data-icons-only="true"></div><button type="button" class="expert-call" data-contact="Project consultation" data-channel="whatsapp">Send enquiry</button></aside>
-<dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title"><button class="dialog-close" aria-label="Close form">×</button><h2 id="contact-title">Contact us</h2><p id="contact-help" class="contact-help" hidden>Enter your name and phone number. Your catalogue will download automatically after you submit the form.</p><div class="contact-channel-tabs" id="contact-channel-tabs" aria-label="Contact method"></div><form id="contact-form"><label>Your name<input name="name" autocomplete="given-name" placeholder="Your name" required maxlength="80"></label><label>Phone number<input name="contact" autocomplete="tel" required type="tel" inputmode="tel" placeholder="Your phone number" minlength="10" maxlength="32"></label><div class="viewing-schedule" id="viewing-schedule" hidden><label>Preferred date<input name="preferred_date" type="date" disabled></label><label>Preferred time<input name="preferred_time" type="time" disabled></label><p>Phnom Penh time (UTC+7)</p></div><input name="website" tabindex="-1" autocomplete="off" class="form-trap" aria-hidden="true"><button class="btn blue" type="submit">Send enquiry</button><p class="form-status" id="form-status" role="status" hidden></p><a id="presentation-download" class="text-button" download="Time-Square-9-Presentation-EN.pdf" hidden>Download the PDF</a></form><div class="tour-message-panel" id="tour-message-panel" hidden><label for="tour-message">Your message</label><textarea id="tour-message" readonly></textarea><button type="button" class="btn outline" id="tour-copy-open">Copy message and open MAX</button></div><a class="direct-contact" id="direct-contact" hidden target="_blank" rel="noopener noreferrer">Open chat</a></dialog>
+<dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title"><button class="dialog-close" aria-label="Close form">×</button><h2 id="contact-title">Contact us</h2><p id="contact-help" class="contact-help" hidden>Enter your name and phone number. Your catalogue will download automatically after you submit the form.</p><div class="contact-channel-tabs" id="contact-channel-tabs" aria-label="Contact method"></div><form id="contact-form"><label>Your name<input name="name" autocomplete="given-name" placeholder="Your name" required maxlength="80"></label><label>Phone number<input name="contact" autocomplete="tel" required type="tel" inputmode="tel" placeholder="Your phone number" minlength="10" maxlength="32"></label><div class="viewing-schedule" id="viewing-schedule" hidden><label>Preferred date<input name="preferred_date" type="date" disabled></label><label>Preferred time<input name="preferred_time" type="time" disabled></label><p>Moscow time (UTC+3)</p></div><input name="website" tabindex="-1" autocomplete="off" class="form-trap" aria-hidden="true"><button class="btn blue" type="submit">Send enquiry</button><p class="form-status" id="form-status" role="status" hidden></p><a id="presentation-download" class="text-button" download="Time-Square-9-Presentation-EN.pdf" hidden>Download the PDF</a></form><div class="tour-message-panel" id="tour-message-panel" hidden><label for="tour-message">Your message</label><textarea id="tour-message" readonly></textarea><button type="button" class="btn outline" id="tour-copy-open">Copy message and open MAX</button></div><a class="direct-contact" id="direct-contact" hidden target="_blank" rel="noopener noreferrer">Open chat</a></dialog>
 <a class="back-top" href="/time-square-9/en/#top" aria-label="Back to top">⌃</a>
 <dialog id="photo-dialog" class="photo-dialog"><button class="dialog-close" aria-label="Close viewer">×</button><button class="photo-prev" aria-label="Previous photo">‹</button><figure><img id="dialog-image" alt=""><figcaption id="dialog-caption"></figcaption></figure><button class="photo-next" aria-label="Next photo">›</button></dialog>
 <dialog id="detail-dialog" class="detail-dialog"><button class="dialog-close" aria-label="Close details">×</button><img id="detail-image" alt=""><div class="detail-copy"><span class="eyebrow" id="detail-eyebrow"></span><h2 id="detail-title"></h2><p id="detail-text"></p><p class="detail-meta" id="detail-meta"></p><div id="detail-actions" class="detail-actions" hidden=""></div></div></dialog>
@@ -440,7 +441,7 @@ function messengerDraftLink(channel,message){
 function investmentTourMessage(name,phone){return `${tourMessage}\n\nName: ${name}\nPhone: ${phone}`}
 function viewingStart(date,time,now=Date.now()){
  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\d{2}:\d{2}$/.test(time))return '';
- const value=new Date(`${date}T${time}:00+07:00`);
+ const value=new Date(`${date}T${time}:00+03:00`);
  return Number.isFinite(value.getTime())&&value.getTime()>now?value.toISOString():'';
 }
 function contactSubmitLabel(){return contactDownloadUrl?'Download presentation':contactMode==='viewing'?'Request viewing':contactMode==='tour'?`Continue in ${channelNames[contactChannel]}`:'Send enquiry'}
@@ -464,7 +465,7 @@ function openContact(context,channel='whatsapp',downloadUrl='',mode='contact'){
  const schedule=$('#viewing-schedule');schedule.hidden=!viewing;
  const form=$('#contact-form');
  for(const field of [form.elements.preferred_date,form.elements.preferred_time]){field.disabled=!viewing;field.required=viewing;field.setCustomValidity('')}
- form.elements.preferred_date.min=new Date(Date.now()+7*60*60*1000).toISOString().slice(0,10);
+ form.elements.preferred_date.min=new Date(Date.now()+3*60*60*1000).toISOString().slice(0,10);
  $('#form-status').hidden=true;$('#tour-message-panel').hidden=true;
  const download=$('#presentation-download');download.hidden=true;download.removeAttribute('href');
  selectContactChannel(channel);
@@ -498,7 +499,7 @@ $('#contact-form').addEventListener('submit',async e=>{
  const downloadUrl=contactDownloadUrl,request=contactContext,channel=contactChannel,mode=contactMode,version=contactVersion;
  const date=form.elements.preferred_date.value,time=form.elements.preferred_time.value;
  const start=mode==='viewing'?viewingStart(date,time):'';
- if(mode==='viewing'&&!start){form.elements.preferred_time.setCustomValidity('Please choose a future date and time in Phnom Penh.');form.elements.preferred_time.reportValidity();return}
+ if(mode==='viewing'&&!start){form.elements.preferred_time.setCustomValidity('Please choose a future date and time in Moscow.');form.elements.preferred_time.reportValidity();return}
  const message=mode==='tour'?investmentTourMessage(name,phone):'',nextLink=mode==='tour'?messengerDraftLink(channel,message):'';
  if(mode==='tour'&&!nextLink){status.textContent='Please choose another messenger.';status.hidden=false;return}
  // Start copying during the submit gesture, before the email request completes.
@@ -509,7 +510,7 @@ $('#contact-form').addEventListener('submit',async e=>{
  button.disabled=true;button.textContent='Sending…';status.hidden=true;
  $$('#contact-channel-tabs button').forEach(b=>b.disabled=true);
  const payload={name,phone,contact:downloadUrl?'Presentation download':mode==='viewing'?'Online viewing':channelNames[channel],project:'Time Square 9',request,language:'en',page:location.href,_url:location.href,_subject:downloadUrl?'Time Square 9 — presentation request (EN)':mode==='viewing'?'Time Square 9 — online viewing request (EN)':mode==='tour'?'Time Square 9 — investment tour request (EN)':'Time Square 9 — новая заявка с сайта',_template:'table',_captcha:'false',_honey:form.elements.website.value};
- if(mode==='viewing')Object.assign(payload,{preferred_date:date,preferred_time:time,time_zone:'Asia/Phnom_Penh (UTC+7)',preferred_start_utc:start});
+ if(mode==='viewing')Object.assign(payload,{preferred_date:date,preferred_time:time,time_zone:'Europe/Moscow (UTC+3)',preferred_start_utc:start});
  if(mode==='tour')payload.message=message;
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),25000);
  try{

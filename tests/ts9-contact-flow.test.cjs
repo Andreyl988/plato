@@ -8,7 +8,7 @@ const code=html.slice(html.indexOf("const contactDialog=$('#contact-dialog');"),
 const siteContent=JSON.parse(html.match(/<script id="site-data" type="application\/json">(.*?)<\/script>/s)[1]);
 const tourMessage=html.match(/const tourMessage='([^']*)';/)[1];
 
-function setup({reject=false,clipboard=true,response}={}){
+function setup({reject=false,clipboard=true,response,now}={}){
  const nodes=new Map(),requests=[],navigations=[],copies=[];
  function element(key){
   if(nodes.has(key))return nodes.get(key);
@@ -31,7 +31,7 @@ function setup({reject=false,clipboard=true,response}={}){
   window:{location:{assign:url=>navigations.push(url)}},location:{href:'https://plato.estate/time-square-9/en/'},
   navigator:{clipboard:{writeText:text=>{copies.push(text);return clipboard?Promise.resolve():Promise.reject(new Error('Clipboard unavailable'))}}},
   fetch:async(url,options)=>{requests.push({url,...Object.fromEntries(options.body)});if(response)return response();return{ok:!reject,status:reject?503:200,json:async()=>({success:!reject})}},
-  Date,URL,URLSearchParams,AbortController,setTimeout,clearTimeout,console:{warn(){}},
+  Date:now===undefined?Date:class extends Date{static now(){return now}},URL,URLSearchParams,AbortController,setTimeout,clearTimeout,console:{warn(){}},
  });
  vm.runInContext(code,context);
  const run=source=>vm.runInContext(source,context);
@@ -43,13 +43,13 @@ test('online viewing requires date/time and emails the requested time with its z
  const h=setup();h.run("openContact('Online viewing','whatsapp','','viewing')");h.fill();
  assert.equal(h.form.elements.preferred_date.required,true);assert.equal(h.element('#contact-channel-tabs').hidden,true);
  await h.send();const p=h.requests[0];
- assert.equal(p.preferred_date,'2099-11-13');assert.equal(p.preferred_time,'15:30');assert.equal(p.time_zone,'Asia/Phnom_Penh (UTC+7)');assert.equal(p.preferred_start_utc,'2099-11-13T08:30:00.000Z');
+ assert.equal(p.preferred_date,'2099-11-13');assert.equal(p.preferred_time,'15:30');assert.equal(p.time_zone,'Europe/Moscow (UTC+3)');assert.equal(p.preferred_start_utc,'2099-11-13T12:30:00.000Z');
  assert.match(h.element('#form-status').textContent,/confirm your appointment/);assert.equal(h.navigations.length,0);
 });
 test('missing schedule cannot submit; past times are rejected',async()=>{
  const h=setup();h.run("openContact('Online viewing','whatsapp','','viewing')");h.fill();h.form.elements.preferred_time.value='';await h.send();assert.equal(h.requests.length,0);
- assert.equal(h.run("viewingStart('2026-11-12','15:00',Date.parse('2026-11-12T09:00:00Z'))"),'');
- assert.equal(h.run("viewingStart('2026-11-13','15:30',Date.parse('2026-11-12T09:00:00Z'))"),'2026-11-13T08:30:00.000Z');
+ assert.equal(h.run("viewingStart('2026-11-12','15:00',Date.parse('2026-11-12T13:00:00Z'))"),'');
+ assert.equal(h.run("viewingStart('2026-11-13','15:30',Date.parse('2026-11-12T13:00:00Z'))"),'2026-11-13T12:30:00.000Z');
 });
 for(const channel of ['whatsapp','telegram'])test(`${channel} opens a draft only after the tour lead is accepted`,async()=>{
  const h=setup();h.run(`openContact('Investment tour','${channel}','','tour')`);h.fill();await h.send();
@@ -79,7 +79,13 @@ test('switching to catalogue mode disables schedule requirements and keeps downl
  assert.equal(h.element('#presentation-download').clicked,true);assert.equal(h.element('#presentation-download').href,'assets/time-square-9-presentation-en.pdf');assert.equal(h.navigations.length,0);
 });
 test('changing the date clears a previous time error so a corrected request can submit',async()=>{
- const h=setup();h.run("openContact('Online viewing','whatsapp','','viewing')");h.fill();h.form.elements.preferred_time.setCustomValidity('Please choose a future date and time in Phnom Penh.');
+ const h=setup();h.run("openContact('Online viewing','whatsapp','','viewing')");h.fill();h.form.elements.preferred_time.setCustomValidity('Please choose a future date and time in Moscow.');
  for(const listener of h.form.elements.preferred_date.listeners.input)listener();
  assert.equal(h.form.elements.preferred_time.validationMessage,'');await h.send();assert.equal(h.requests.length,1);
+});
+
+test('minimum viewing date rolls over at Moscow midnight',()=>{
+ for(const [now,expected] of [['2026-11-12T20:59:00Z','2026-11-12'],['2026-11-12T21:00:00Z','2026-11-13']]){
+  const h=setup({now:Date.parse(now)});h.run("openContact('Online viewing','whatsapp','','viewing')");assert.equal(h.form.elements.preferred_date.min,expected);
+ }
 });
