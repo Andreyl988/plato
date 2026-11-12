@@ -425,13 +425,13 @@ $('#reset-filters').addEventListener('click',()=>{selectedType='all';Object.entr
 $$('[data-view]').forEach(b=>b.addEventListener('click',()=>{selectedView=b.dataset.view;$$('[data-view]').forEach(x=>{const on=x.dataset.view===selectedView;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});$('#apartments-grid').classList.toggle('list-view',selectedView==='list')}));
 const amenities=[
  {
-  "asset": "gym",
+  "asset": "rooftop",
   "title": "Infinity Pool",
   "text": "Panoramic pool on the upper floors.",
   "full": "An Infinity Pool is planned on floor 48, with a leisure area and views of Phnom Penh. The pool is 30 m long."
  },
  {
-  "asset": "gym",
+  "asset": "hero",
   "title": "Sky Gym",
   "text": "Fitness and sports spaces above the city.",
   "full": "Sky Gym, a training studio and a boxing studio are planned on floor 48."
@@ -455,7 +455,7 @@ const amenities=[
   "full": "Amenities include Cinema Studio, two bowling lanes, Game Lounge, KTV and Poker Room on floor 34."
  },
  {
-  "asset": "poolWarm",
+  "asset": "duplex-living",
   "title": "Family floor",
   "text": "Pool, children’s areas and barbecue facilities.",
   "full": "Floor 7 includes a Lap Pool, jogging track, indoor playroom, playground and barbecue area."
